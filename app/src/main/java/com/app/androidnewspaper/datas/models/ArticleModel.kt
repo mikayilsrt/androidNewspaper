@@ -3,8 +3,8 @@ package com.app.androidnewspaper.datas.models
 class ArticleModel(
     val uri: String,
     val url: String,
-    val id: Int,
-    val asset_id: Int,
+    val id: Long,
+    val asset_id: Long,
     val source: String,
     val published_date: String,
     val updated: String,
@@ -23,5 +23,5 @@ class ArticleResponse(
     val status: String,
     val copyright: String,
     val num_results: Int,
-    val results: List<ArticleModel>? = listOf()
+    val results: List<ArticleModel> = listOf()
 )

@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onSubscribe(d: Disposable?) = Unit
 
-                override fun onNext(t: ArticleResponse?) {
-                    Log.d("Debug", t?.results?.size.toString())
+                override fun onNext(t: ArticleResponse) {
+                    Log.d("Debug", t.results.size.toString())
                 }
 
                 override fun onError(e: Throwable?) = Unit
