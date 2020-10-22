@@ -5,18 +5,18 @@ import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
 import com.app.androidnewspaper.R
-import com.app.androidnewspaper.datas.repository.ArticleRepository
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
+
+    private val viewModel: MainActivityViewModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val articleRepository: ArticleRepository = ArticleRepository()
-        articleRepository.loadMostPopularArticle()
-
-        articleRepository.getMostPopularArticle().observe(this, Observer {
-            Log.d("Debug", it.size.toString())
+        viewModel.getMostPopularArticle().observe(this, Observer {
+            Log.d("Debug", "Size : " + it.size.toString())
         })
     }
 }
