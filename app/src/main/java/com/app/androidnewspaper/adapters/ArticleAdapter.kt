@@ -3,10 +3,15 @@ package com.app.androidnewspaper.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.androidnewspaper.R
 import com.app.androidnewspaper.datas.models.ArticleModel
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 
 class ArticleAdapter(
         var articleList: List<ArticleModel> = listOf()
@@ -28,7 +33,20 @@ class ArticleAdapter(
 
     inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(articleModel: ArticleModel) {
+            val imageView = view.findViewById<ImageView>(R.id._articleMediaCover)
+            val factory: DrawableCrossFadeFactory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
+
             view.findViewById<TextView>(R.id._title).text = articleModel.title.toString()
+            view.findViewById<TextView>(R.id._abstract).text = articleModel.abstract.toString()
+
+            if(articleModel.media.isNotEmpty() && articleModel.media.first().mediaMetadata.isNotEmpty()) {
+                Glide
+                    .with(view.context)
+                    .load(articleModel.media.first().mediaMetadata[1].url.toString())
+                    .transition(withCrossFade(factory))
+                    .transform(RoundedCorners(17))
+                    .into(imageView)
+            }
         }
     }
 }

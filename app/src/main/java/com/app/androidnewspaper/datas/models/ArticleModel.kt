@@ -1,5 +1,7 @@
 package com.app.androidnewspaper.datas.models
 
+import com.google.gson.annotations.SerializedName
+
 class ArticleModel(
     val uri: String,
     val url: String,
@@ -16,7 +18,25 @@ class ArticleModel(
     val byline: String,
     val type: String,
     val title: String,
-    val abstract: String
+    val abstract: String,
+    val media: List<MediaModel> = listOf()
+)
+
+class MediaModel(
+    val type: String,
+    val subtype: String,
+    val caption: String,
+    val copyright: String,
+    val approved_for_syndication: Int,
+    @SerializedName("media-metadata")
+    val mediaMetadata: List<MediaMetaData> = listOf()
+)
+
+class MediaMetaData(
+    val url: String,
+    val format: String,
+    val height: Int,
+    val width: Int
 )
 
 class ArticleResponse(
