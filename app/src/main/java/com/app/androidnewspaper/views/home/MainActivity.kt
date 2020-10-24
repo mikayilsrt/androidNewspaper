@@ -2,6 +2,9 @@ package com.app.androidnewspaper.views.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +23,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initialRecyclerView()
+
+        viewModel.getProgressBar().observe(this, Observer {
+            if (it) {
+                findViewById<ProgressBar>(R.id._progressBar).visibility = View.VISIBLE
+            } else {
+                findViewById<ProgressBar>(R.id._progressBar).visibility = View.GONE
+            }
+        })
+
+        viewModel.isError().observe(this, Observer {
+            if (it)
+                Toast.makeText(baseContext, "An error occurred while retrieving items.", Toast.LENGTH_LONG).show()
+        })
 
         viewModel.getMostPopularArticle().observe(this, Observer {
             this.adapter.articleList = it

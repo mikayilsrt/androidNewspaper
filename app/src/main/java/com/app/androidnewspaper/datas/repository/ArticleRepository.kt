@@ -15,6 +15,16 @@ class ArticleRepository {
 
     private val service: NYTimeService = ServiceObject.retrofit.create(NYTimeService::class.java)
 
+    private val _isSubscribe: MutableLiveData<Boolean> = MutableLiveData()
+    fun isSubscribe(): LiveData<Boolean> {
+        return this._isSubscribe
+    }
+
+    private val _isError: MutableLiveData<Boolean> = MutableLiveData()
+    fun isError(): LiveData<Boolean> {
+        return this._isError
+    }
+
     private val _mostPopularArticle: MutableLiveData<List<ArticleModel>> = MutableLiveData()
     fun getMostPopularArticle(): LiveData<List<ArticleModel>> {
         return this._mostPopularArticle
@@ -25,15 +35,22 @@ class ArticleRepository {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object: Observer<ArticleResponse> {
-                override fun onComplete() = Unit
+                override fun onComplete() {
+                    this@ArticleRepository._isSubscribe.value = false
+                }
 
-                override fun onSubscribe(d: Disposable?) = Unit
+                override fun onSubscribe(d: Disposable?) {
+                    this@ArticleRepository._isSubscribe.value = true
+                }
 
                 override fun onNext(t: ArticleResponse) {
                     this@ArticleRepository._mostPopularArticle?.value = t.results
                 }
 
-                override fun onError(e: Throwable?) = Unit
+                override fun onError(e: Throwable?) {
+                    this@ArticleRepository._isError.value = true
+                    this@ArticleRepository._isSubscribe.value = false
+                }
             })
     }
 
