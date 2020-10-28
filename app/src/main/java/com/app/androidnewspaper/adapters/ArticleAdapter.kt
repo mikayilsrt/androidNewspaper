@@ -8,10 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.androidnewspaper.R
 import com.app.androidnewspaper.datas.models.ArticleModel
+import com.app.androidnewspaper.views.article.ArticleActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
+import kotlinx.serialization.json.Json
 
 class ArticleAdapter(
         var articleList: List<ArticleModel> = listOf()
@@ -47,6 +49,8 @@ class ArticleAdapter(
                     .transform(RoundedCorners(17))
                     .into(imageView)
             }
+
+            view.setOnClickListener { ArticleActivity.start(view.context, Json.stringify(ArticleModel.serializer(), articleModel)) }
         }
     }
 }

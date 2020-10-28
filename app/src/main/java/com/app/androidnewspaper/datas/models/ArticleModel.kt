@@ -1,7 +1,9 @@
 package com.app.androidnewspaper.datas.models
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
+@Serializable
 class ArticleModel(
     val uri: String,
     val url: String,
@@ -22,6 +24,7 @@ class ArticleModel(
     val media: List<MediaModel> = listOf()
 )
 
+@Serializable
 class MediaModel(
     val type: String,
     val subtype: String,
@@ -32,6 +35,7 @@ class MediaModel(
     val mediaMetadata: List<MediaMetaData> = listOf()
 )
 
+@Serializable
 class MediaMetaData(
     val url: String,
     val format: String,
