@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.webkit.WebView
 import com.app.androidnewspaper.R
 import com.app.androidnewspaper.datas.models.ArticleModel
+import com.app.androidnewspaper.datas.repository.database.ArticleRoomDatabase
 import kotlinx.serialization.json.Json
 
 class ArticleActivity : AppCompatActivity() {
@@ -30,5 +32,9 @@ class ArticleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_article)
 
         findViewById<WebView>(R.id._articleWebView).loadUrl(articleModelExtra.url.toString())
+
+        val articleRoomDatabase = ArticleRoomDatabase.getDatabase(this)
+        articleRoomDatabase.getFavoriteDao().insert(articleModelExtra)
+        Log.d("Debug", "Size : " + articleRoomDatabase.getFavoriteDao().getFavoriteArticles().size.toString())
     }
 }
